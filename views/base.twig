@@ -1,9 +1,47 @@
-{% block header %}
-    <meta name="robots" value="noindex"/>
-{% endblock %}
+<!DOCTYPE html>
+<html class="no-js no-touchevents" {{ site.language_attributes }}>
+<head>
+    {% block head %}
+        <meta charset="{{ site.charset }}"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
 
-{% block content %}
-{% endblock %}
+        {{ function('wp_head') }}
+    {% endblock %}
+</head>
+<body {{ function('body_class') }} data-template="views/base.twig">
+{% block body %}
+    {% block header %}
+        {% include 'views/partials/header.twig' %}
+    {% endblock %}
+    <div class="site-wrapper">
+        {% block main %}
+            <main class="site-content container container--large" id="content">
+                {% block content %}
+                    Sorry, no content
+                {% endblock %}
+            </main>
+        {% endblock %}
+        {% block livechat %}
+            <a class="live-chat" href="/contact/ask-an-expert/"
+               target="_blank">{{ source('svgs/live-chat-circle.svg') }}</a>
+        {% endblock %}
+        {% block footer %}
+            {% include 'views/partials/footer.twig' %}
+        {% endblock %}
+    </div>
+    {% include 'views/partials/components/modal.twig' %}
 
-{% block footer %}
+    {{ function('wp_footer') }}
 {% endblock %}
+</body>
+</html>
