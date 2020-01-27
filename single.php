@@ -1,7 +1,7 @@
 <?php
 
-use Harwin\Kernel;
-use Harwin\Wordpress\SingleController;
+use {{ SITE_NAMESPACE }}\Kernel;
+use {{ SITE_NAMESPACE }}\Wordpress\SingleController;
 use Timber\Timber;
 
 $action = Kernel::getAction(get_post_type());

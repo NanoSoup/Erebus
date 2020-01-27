@@ -1,7 +1,7 @@
 <?php
 
-use Harwin\Kernel;
-use Harwin\Wordpress\ArchiveController;
+use {{ SITE_NAMESPACE }}\Kernel;
+use {{ SITE_NAMESPACE }}\Wordpress\ArchiveController;
 use Timber\Timber;
 
 $postType = get_post_type();

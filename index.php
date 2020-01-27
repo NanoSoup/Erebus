@@ -1,7 +1,7 @@
 <?php
 
 use Timber\Timber;
-use Harwin\IndexController;
+use {{ SITE_NAMESPACE }}\IndexController;
 
 $page = IndexController::indexAction();
 
