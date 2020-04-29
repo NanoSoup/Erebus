@@ -28,7 +28,7 @@
         "fontfaceobserver": "^2.1.0",
         "ie-string-startswith-polyfill": "^1.0.1",
         "imagemin-webpack-plugin": "^2.4.2",
-        "jquery": "^3.2.1",
+        "jquery": "^3.5.0",
         "mini-css-extract-plugin": "0.4.2",
         "node-sass": "^4.11.0",
         "node-sass-glob-importer": "^5.3.1",
