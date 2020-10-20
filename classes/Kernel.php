@@ -2,7 +2,7 @@
 
 namespace {{ SITE_NAMESPACE }};
 
-use Zeus\Kernel as KernelBase;
+use NanoSoup\Zeus\Kernel as KernelBase;
 
 
 class Kernel extends KernelBase
