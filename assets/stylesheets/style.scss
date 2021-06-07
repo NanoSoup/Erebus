@@ -10,10 +10,9 @@
 @charset 'UTF-8';
 
 @import 'settings/variables', 'settings/fonts';
-@import 'tools/**/*';
-@import 'globals/**/*';
-@import 'objects/**/*';
-@import 'elements/**/*';
-@import 'components/**/*';
-@import 'templates/**/*';
-
+@import 'tools/**/*.scss';
+@import 'globals/**/*.scss';
+@import 'objects/**/*.scss';
+@import 'elements/**/*.scss';
+@import 'components/**/*.scss';
+@import 'templates/**/*.scss';
