@@ -10,6 +10,7 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const Dotenv = require('dotenv-webpack');
+
 const buildPath = path.resolve(__dirname, './public/dist/');
 
 module.exports = (env, argv) => {
