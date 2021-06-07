@@ -1,0 +1,19 @@
+/*!
+    Theme URI: http://www.NanoSoup.co.uk/
+    Theme Name: Erebus
+    Description: Custom theme
+    Author: NanoSoup
+    Text Domain: NanoSoup
+    Version: 1.0
+!*/
+
+@charset 'UTF-8';
+
+@import 'settings/variables', 'settings/fonts';
+@import 'tools/**/*';
+@import 'globals/**/*';
+@import 'objects/**/*';
+@import 'elements/**/*';
+@import 'components/**/*';
+@import 'templates/**/*';
+
