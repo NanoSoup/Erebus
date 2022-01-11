@@ -31,15 +31,10 @@
                 {% endblock %}
             </main>
         {% endblock %}
-        {% block livechat %}
-            <a class="live-chat" href="/contact/ask-an-expert/"
-               target="_blank">{{ source('svgs/live-chat-circle.svg') }}</a>
-        {% endblock %}
         {% block footer %}
             {% include 'views/partials/footer.twig' %}
         {% endblock %}
     </div>
-    {% include 'views/partials/components/modal.twig' %}
 
     {{ function('wp_footer') }}
 {% endblock %}
