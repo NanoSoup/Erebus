@@ -222,3 +222,7 @@
         }
     }
 }
+
+@function fluid-unit($pixel_value) {
+    @return #{strip-unit($pixel_value) / strip-unit($max-font)}rem;
+}
