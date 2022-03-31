@@ -5,47 +5,46 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const globImporter = require('node-sass-glob-importer');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const ManifestPlugin = require('webpack-manifest-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
+const Dotenv = require('dotenv-webpack');
+
+const buildPath = path.resolve(__dirname, './public/dist/');
 
 module.exports = (env, argv) => {
     const devMode = argv.mode === 'development';
 
-    return {
+    const args = {
         entry: {
-            main: ['./assets/js/main.js'],
-            style: ['./assets/scss/style.scss'],
-            editor: [
-                './assets/scss/editor-style.scss',
-                './assets/js/editor.js'
-            ]
+            app: ['./assets/javascript/app.js', './assets/stylesheets/style.scss'],
+            editor: ['./assets/stylesheets/editor.scss', './assets/javascript/editor.js'],
         },
         output: {
             filename: devMode ? '[name].js' : '[name].[hash].min.js',
-            path: path.resolve(__dirname, './public/dist/')
+            path: path.resolve(__dirname, './public/dist/'),
         },
         devtool: 'source-maps',
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: /\.jsx?$/,
                     exclude: /node_modules/,
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: [
-                                ['@babel/preset-env']
-                            ],
+                            presets: ['@babel/preset-env', '@babel/preset-react'],
                             plugins: [
                                 '@babel/plugin-proposal-export-default-from',
-                                '@babel/plugin-proposal-class-properties'
-                            ]
-                        }
-                    }
+                                '@babel/plugin-proposal-class-properties',
+                                '@babel/plugin-transform-runtime',
+                            ],
+                        },
+                    },
+                    resolve: {
+                        extensions: ['.js', '.jsx'],
+                    },
                 },
                 {
                     test: /\.s?css$/,
@@ -53,33 +52,34 @@ module.exports = (env, argv) => {
                         MiniCssExtractPlugin.loader,
                         {
                             loader: 'css-loader',
-                            options: { sourceMap: true }
+                            options: { sourceMap: true },
                         },
                         {
                             loader: 'postcss-loader',
-                            options: { sourceMap: true }
+                            options: { sourceMap: true },
                         },
                         { loader: 'resolve-url-loader' },
                         {
                             loader: 'sass-loader',
                             options: {
                                 sourceMap: true,
-                                importer: globImporter()
-                            }
-                        }
-                    ]
+                                importer: globImporter(),
+                            },
+                        },
+                    ],
                 },
                 {
-                    test: /\.(png|jpg|gif)$/,
+                    test: /\.(png|jpe?g|gif|webp)$/i,
                     use: [
                         {
                             loader: 'file-loader',
                             options: {
                                 outputPath: 'images/',
-                                name: '[name].[ext]'
-                            }
-                        }
-                    ]
+                                name: '[name].[ext]',
+                                publicPath: `${buildPath}images/`,
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.(svg)$/,
@@ -88,8 +88,9 @@ module.exports = (env, argv) => {
                             loader: 'file-loader',
                             options: {
                                 outputPath: 'svgs/',
-                                name: '[name].[ext]'
-                            }
+                                name: '[name].[ext]',
+                                publicPath: `${buildPath}svgs/`,
+                            },
                         },
                         {
                             loader: 'svgo-loader',
@@ -98,11 +99,10 @@ module.exports = (env, argv) => {
                                     { removeTitle: true },
                                     { convertColors: { shorthex: false } },
                                     { convertPathData: false },
-                                    { removeViewBox: false }
-                                ]
-                            }
-                        }
-                    ]
+                                ],
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.(woff(2)?|ttf|eot)$/,
@@ -111,63 +111,52 @@ module.exports = (env, argv) => {
                             loader: 'file-loader',
                             options: {
                                 outputPath: 'fonts/',
-                                name: '[name].[ext]'
-                            }
-                        }
-                    ]
-                }
-            ]
+                                name: '[name].[ext]',
+                            },
+                        },
+                    ],
+                },
+            ],
         },
-        optimization: {
-            minimize: true,
-            minimizer: [
-                new TerserPlugin({
-                    parallel: true,
-                    terserOptions: { output: { comments: false } }
-                })
-            ]
+        externals: {
+            jquery: 'jQuery',
         },
         plugins: [
             new CleanWebpackPlugin(),
             new FixStyleOnlyEntriesPlugin(),
             new MiniCssExtractPlugin({
                 filename: devMode ? '[name].css' : '[name].[hash].min.css',
-                chunkFilename: devMode ? '[id].css' : '[id].[hash].min.css'
+                chunkFilename: devMode ? '[id].css' : '[id].[hash].min.css',
             }),
             new ImageminPlugin({
-                test: /\.(jpg|png|gif)$/i,
-                cacheFolder: './imgcache'
+                test: /\.(png|jpe?g|gif|svg|webp)$/i,
+                cacheFolder: './imgcache',
             }),
             new ManifestPlugin(),
             new webpack.ProvidePlugin({
                 $: 'jquery',
                 jQuery: 'jquery',
-                'window.jQuery': 'jquery'
+                'window.jQuery': 'jquery',
             }),
-            new BrowserSyncPlugin(
-                {
-                    // browse to http://localhost:3000/ during development
-                    host: 'localhost',
-                    port: 3000,
-                    // proxy the Webpack Dev Server endpoint
-                    // through BrowserSync via php server
-                    proxy: 'http://localhost:8080/',
-                    notify: true,
-                    injectCss: true,
-                    files: ['./public/dist/*.css'],
-                    open: false
-                },
-                {
-                    // prevent BrowserSync from reloading the page
-                    // and let Webpack Dev Server take care of this
-                    reload: false
-                }
-            ),
+            new WebpackBar(),
             new Dotenv({
                 path: '../../../.env',
-                systemvars: true
+                systemvars: true,
             }),
-            new WebpackBar()
-        ]
+        ],
     };
+
+    if (devMode === 'production') {
+        args.optimization = {
+            minimize: true,
+            minimizer: [
+                new TerserPlugin({
+                    parallel: true,
+                    terserOptions: { output: { comments: false } },
+                }),
+            ],
+        };
+    }
+
+    return args;
 };
