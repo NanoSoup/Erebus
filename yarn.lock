@@ -10665,10 +10665,10 @@ webpack-dev-server@^3.2.1:
     webpack-log "^2.0.0"
     yargs "12.0.5"
 
-webpack-fix-style-only-entries@^0.2.1:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/webpack-fix-style-only-entries/-/webpack-fix-style-only-entries-0.2.2.tgz#60331c608b944ac821a3b6f2ae491a6d79ba40eb"
-  integrity sha512-0wcrLCnISP8htV0NP1mT0e2mHhfjGQdNk82s8BTLVvF7rXuoJuUUzP3aCUXnRqlLgmTBx5WgqPhnczjatl+iSQ==
+webpack-fix-style-only-entries@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/webpack-fix-style-only-entries/-/webpack-fix-style-only-entries-0.6.1.tgz#8e517085cc3426ccd1cb37ff2897b993563a424a"
+  integrity sha512-wyIhoxS3DD3Fr9JA8hQPA+ZmaWnqPxx12Nv166wcsI/0fbReqyEtiIk2llOFYIg57WVS3XX5cZJxw2ji70R0sA==
 
 webpack-log@^2.0.0:
   version "2.0.0"
